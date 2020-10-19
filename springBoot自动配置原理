@@ -1,0 +1,18 @@
+spring boot工作原理：
+	SpringBootApplication（复合注解） -> EnableAutoConfiguration（开启自动配置）-> Import（提供关键功能-AutoConfigurationImportSelector selectImports()方法）-> SpringFactoriesLoader.loadFactoryNames() -> 扫描所有具有META-INF/spring.factories的jar
+	
+	META-INF/spring.factories：存在于spring-boot的jar包中
+	
+	
+	@ComponentScan扫描装配根目录下所有带@Component注解的class（@Service、@Controller等注解都是符合注解，均包含@Component）
+	
+	综上所述的话：正常项目中有两种java bean,
+		①项目中自定义的bean，项目启动时通过扫描注解@Service、@Controller等生成到容器中的bean；
+		②来源于jar包中的bean，通过EnableAutoConfiguration -> import导入的jar，即通过@EnableAutoConfiguration注解找到META-INF/spring.factories文件中的所有配置类，并对其进行加载，这些配置类都是以AutoConfiguration结尾来命名的
+		
+		
+	JavaConfig（@Configuration）
+	
+	@Bean 用在方法上的复合注解，整合了@Component，即可被Component-Scan识别，并以一个bean的形式交由spring容器托管，一般是写在@Configuration中的
+	
+	@Configuration 用在类上的，相当于xml中的<bean></bean>,可以交由spring容器托管
